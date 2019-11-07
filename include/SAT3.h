@@ -1,5 +1,9 @@
 /**
- * Autores: David de León Rodríguez y Victoria Quintana Martí
+ * Autores: 
+ * Pier Paolo Tarasco
+ * Germán Alfonso Teixidó
+ * Alberto Delgado Soler
+ * Tomás González Martín
  */
 #ifndef SAT3_H
 #define SAT3_H

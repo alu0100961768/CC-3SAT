@@ -1,3 +1,10 @@
+/**
+ * Autores: 
+ * Pier Paolo Tarasco
+ * Germán Alfonso Teixidó
+ * Alberto Delgado Soler
+ * Tomás González Martín
+ */
 #include "SAT2SAT3.h"
 
 #include <iostream>
