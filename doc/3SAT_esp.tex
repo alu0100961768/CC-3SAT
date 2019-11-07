@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fixltx2e,fix-cm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage[spanish]{babel} 
+\selectlanguage{spanish}
+
+
+
+
+% Portada personalizada
+
+\begin{document}
+\begin{titlepage}
+	\centering
+	{\scshape\LARGE Complejidad Computacional\par}
+	\vspace{1cm}
+	{\scshape\Large El problema 3-Satisfiability\par}
+	\vspace{1.5cm}
+	{\huge\bfseries 3SAT\par}
+	\vspace{2cm}
+	{\Large\itshape Alberto Delgado Soler\par}
+	{\Large\itshape Germán Alfonso Teixidó\par}
+	{\Large\itshape Tomás González Martín\par}
+	{\Large\itshape Pier Paolo Tarasco\par}
+	  
+	 \vfill
+
+% Bottom of the page
+	{\large \today\par}
+\end{titlepage}
+
+
+\section{Introduction}
+\subsection{Descripción del problema}
+La 3-satisfactibilidad es un caso especial de satisfactibilidad (SAT), en la que cada cláusula contiene exactamente 3 literales. El problema SAT es el problema de saber si, dada una expresión booleana con variables y sin cuantificadores, hay alguna asignación de valores para sus variables que hace que la expresión sea verdadera.
+
+
+\subsection{Paso de SAT a 3SAT}
+Siendo $ U = \{u_1, u_2,...,u_n\}$ un conjunto de variables, y $ C = \{c_1, c_2, ...,, c_m\}$ un conjunto de cláusulas, queremos construir un conjunto $C'$ de clausulas de tres literales en un nuevo conjunto $U'$, de tal forma que $C'$ sea satisfactoria si y solo si $C$ es satisfactoria.
+Para la construcción de $C'$ vamos a contemplar distintos casos, los cuales se dividen en función del número de variables disponibles en $U$ y el número de variables necesarias para completar las tripletas.
+Supóngase que $C$ contiene $k$ literales:
+\begin{itemize}
+    \item \bold{Caso 1}. Si $k=1$ significa que $C_i = z_1$. Por lo tanto, se necesitan dos variables adicionales $v_1$ y $v_2$ de tal forma que se obtienen cuatro nuevas clausulas de 3 literales. 
+    $$ C' = \{v_1, v_2, z1\}, \{v_1, \overline {v_2}, z_1\}, \{\overline{v_1}, v_2, z1\}, \{\overline{v_1}, \overline{v_2}, z_1\} $$
+    El motivo de esto es que tanto $v_1$ como $v_2$ pueden ser verdaderos, o no. Por ello, se deben presentar todos los casos (incluyendo los literales negados).
+    \item \bold{Caso 2}. Si $k=2$ significa que $C_i = \{z_1, z_2\}$. Ya que contamos como dos literales, solo se necesita un literal adicional, $v_1$. Por ello, los dos posibles valores que tome el literal adicional añadido.
+        $$ C' = \{v_1, z_1, z_2\}, \{\overline{v_1}, z_1, z_2\}$$
+    \item \bold{Caso 3}. Si tenemos $k=3$ el SAT ya cumple el formato 3SAT
+    \item \bold{Caso 4}. Si $k>3$ se deben crear "$k-3$" variables adicionales, incrementando el número de clausulas en $k-2$. El conjunto C' estará compuesto por 3 partes. La primera parte es la primera tripleta del conjunto, formada por los dos primeros $k$ literales, añadiendo la primera variable adicional.
+        $$ \{z_1, z_2, v_1\}$$
+    Las siguientes tripletas (excepto la última) serán de la forma
+    $$ \{\overline{v_i}, z_{i+2}, v_{i+1}\}$$
+    Por último, el conjunto se completa con
+        $$ \{\overline{v_{k-3}}, z_{k-1}, z_k\}$$
+    Por lo tanto, para el Caso 4, donde $k>3$, tenemos el problema 3SAT con la forma:
+        $$ C' = \{z_1, z_2, v_1\} \cup \{\overline{v_i}, z_{i+2}, v_{i+1}\} \cup \{\overline{v_{k-3}}, z_{k-1}, z_k\}$$
+
+\end{itemize}
+
+\subsection{Código desarrollado}
+El código, desarrollado en el lenguaje \textit{C++}.
+\subsubsection{Estructura del programa}
+\begin{itemize}
+    \item \textit{/include}: ficheros \textit{*.h} que contienen las cabeceras de las clases utilizadas.
+    \item \textit{/obj}: contiene el ejecutable del programa, además de las entradas y salidas, junto a los ficheros objeto (\textit{*.o*}).
+    \item \textit{/src}: ficheros con extensión \textit{*.cpp} que contienen la implementación de las clases, y el programa principal.
+\end{itemize}
+
+\subsubsection{Descripción de ficheros principales}
+\begin{itemize}
+    \item \textit{SAT}: Contiene la definición formal del problema SAT.
+    \item \textit{SAT3}: Siendo un caso particular del SAT, hereda de éste, implementando la concatenación de clausulas de los casos visto anteriormente.
+    \item \textit{SAT2SAT3}: \textit{SAT to 3SAT} tiene como propósito convertir el problema del SAT en el problema del 3SAT utilizando la capacidad de concatenar \de \textit{SAT3}
+    \item \textit{input}: fichero que presenta el problema de entrada en la forma normal conjuntiva (cnf) siguiendo el estandar, donde:
+    \begin {itemize}
+        \item Las primeras líneas pueden tener una c seguida de un comentario en cada línea en la que quieras poner comentarios.
+        \item Después la letra p seguido de cnf y luego el número de variables y el número de cláusulas.
+        \item A continuación debe haber una línea por cada cláusula y, en cada cláusula, se ponen los números de las variable que se encuentran en la cláusula (sin nada o con un “-” delante para indicar que está negado) y al final de la cláusula el un “0” para indicar que se terminó la cláusula
+    \end{itemize}
+\end{itemize}
+\end{document}
+
